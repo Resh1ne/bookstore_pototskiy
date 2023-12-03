@@ -1,16 +1,17 @@
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Objects;
 
 public class Book {
-    Long id;
-    String isbn;
-    String author;
-    String title;
-    Integer pages;
-    String publicationDate;
-    String genre;
-    String language;
-    Double price;
+    private Long id;
+    private String isbn;
+    private String author;
+    private String title;
+    private Integer pages;
+    private Date publicationDate;
+    private String genre;
+    private String language;
+    private Double price;
 
     public String getAuthor() {
         return author;
@@ -52,11 +53,11 @@ public class Book {
         this.pages = pages;
     }
 
-    public String getPublicationDate() {
+    public Date getPublicationDate() {
         return publicationDate;
     }
 
-    public void setPublicationDate(String publicationDate) {
+    public void setPublicationDate(Date publicationDate) {
         this.publicationDate = publicationDate;
     }
 
@@ -117,6 +118,15 @@ public class Book {
                 ", genre='" + genre + '\'' +
                 ", language='" + language + '\'' +
                 ", price=" + price +
+                '}';
+    }
+
+    public String shortToString(){
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", publicationDate='" + publicationDate + '\'' +
                 '}';
     }
 }

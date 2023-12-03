@@ -1,70 +1,102 @@
-import java.sql.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Pattern pattern = Pattern.compile("\\d+");
 
-    public static final String PASSWORD = "root";
-    public static final String USER = "postgres";
-    public static final String URL = "jdbc:postgresql://127.0.0.1:5432/bookstore_pototskiy";
+        while (true) {
+            printMenu();
 
-    public static void main(String[] args){
-        List<Book> books = getAllBooks();
-        for(Book book : books){
-            System.out.println(book.toString());
+            String userInput = scanner.nextLine();
+            Matcher matcher = pattern.matcher(userInput);
+            String command = "";
+            long id = 0;
+            if (matcher.find()) {
+                command = matcher.group();
+                id = Long.parseLong(command);
+                command = matcher.replaceAll("");
+            }
+
+            if (!usingMenu(userInput, id, command, scanner)) {
+                return;
+            }
         }
-
-        System.out.println("--------------------------------------");
-        Book book =  getBook(20);
-        System.out.println(book);
     }
 
-    private static List<Book> getAllBooks(){
-        List<Book> books = new ArrayList<>();
-        try(Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)){
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT id, author, isbn, title, pages, publication_date, genre, \"language\", price FROM books");
-            while(resultSet.next()){
-                Book book = new Book();
-                book.setId(resultSet.getLong("id"));
-                book.setAuthor(resultSet.getString("author"));
-                book.setIsbn(resultSet.getString("isbn"));
-                book.setTitle(resultSet.getString("title"));
-                book.setPages(resultSet.getInt("pages"));
-                book.setPublicationDate(resultSet.getString("publication_date"));
-                book.setGenre(resultSet.getString("genre"));
-                book.setLanguage(resultSet.getString("language"));
-                book.setPrice(resultSet.getDouble("price"));
-                books.add(book);
-            }
-        } catch (SQLException e){
-            throw new RuntimeException(e);
-        }
-        return books;
+    private static void printMenu() {
+        String commandAll = "\u001B[35m" + "/all" + "\u001B[0m\n";
+        String commandGet = "\u001B[35m" + "/get{id}" + "\u001B[0m\n";
+        String commandDelete = "\u001B[35m" + "/delete{id}" + "\u001B[0m\n";
+        String commandExit = "\u001B[35m" + "/exit" + "\u001B[0m\n";
+        String commandCreate = "\u001B[35m" + "/create" + "\u001B[0m\n";
+        System.out.print("-------Menu-------\n" +
+                "~To view all the books, enter: " + commandAll +
+                "~To display detailed information about the book, enter: " + commandGet +
+                "~To delete a book, enter: " + commandDelete +
+                "~To create a book, enter: " + commandCreate +
+                "~To exit, enter: " + commandExit);
     }
 
-    private static Book getBook(long id){
-        try(Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)){
-            PreparedStatement statement = connection.prepareStatement("SELECT id, author, isbn, title, pages, publication_date, genre, \"language\", price FROM books WHERE id = ?");
-            statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()){
-                Book book = new Book();
-                book.setId(resultSet.getLong("id"));
-                book.setAuthor(resultSet.getString("author"));
-                book.setIsbn(resultSet.getString("isbn"));
-                book.setTitle(resultSet.getString("title"));
-                book.setPages(resultSet.getInt("pages"));
-                book.setPublicationDate(resultSet.getString("publication_date"));
-                book.setGenre(resultSet.getString("genre"));
-                book.setLanguage(resultSet.getString("language"));
-                book.setPrice(resultSet.getDouble("price"));
-                return book;
+    private static boolean usingMenu(String userInput, Long id, String command, Scanner scanner) {
+        BookDao bookDao = new BookDaoRealization();
+        if (userInput.equals("/all")) {
+            List<Book> books = bookDao.readAll();
+            for (Book book : books) {
+                System.out.println(book.toString());
             }
-        } catch (SQLException e){
-            throw new RuntimeException(e);
+        } else if (userInput.equals("/exit")) {
+            return false;
+        } else if (id > 0 && "/get{}".equals(command)) {
+            Book book = bookDao.readById(id);
+            System.out.println(book);
+        } else if (id > 0 && "/delete{}".equals(command)) {
+            boolean deleted = bookDao.delete(id);
+            System.out.println(deleted);
+        } else if (userInput.equals("/create")) {
+            Book book = createBookWithoutID(scanner);
+            Book createdBook = bookDao.create(book);
+            System.out.println(createdBook.toString());
+
+        } else {
+            System.out.println("Incorrect command!");
         }
-        return null;
+        return true;
+    }
+
+    private static Book createBookWithoutID(Scanner scanner) {
+        Book book = new Book();
+        System.out.print("Enter the ISBN of the book: ");
+        book.setIsbn(scanner.nextLine());
+        System.out.print("Enter the author of the book: ");
+        book.setAuthor(scanner.nextLine());
+        System.out.print("Enter the title of the book: ");
+        book.setTitle(scanner.nextLine());
+        System.out.print("Enter the number of pages of the book: ");
+        while (true) {
+            int pages = scanner.nextInt();
+            if (pages > 0) {
+                book.setPages(pages);
+                break;
+            }
+            System.out.println("Incorrect input! Enter it again!");
+        }
+        System.out.print("Enter the genre of the book: ");
+        book.setGenre(scanner.nextLine());
+        System.out.print("Enter the language of the book: ");
+        book.setLanguage(scanner.nextLine());
+        System.out.print("Enter the price of the book: ");
+        while (true) {
+            double price = scanner.nextInt();
+            if (price > 0) {
+                book.setPrice(price);
+                break;
+            }
+            System.out.println("Incorrect input! Enter it again!");
+        }
+        return book;
     }
 }
