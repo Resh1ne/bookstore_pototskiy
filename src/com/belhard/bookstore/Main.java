@@ -78,19 +78,19 @@ public class Main {
         book.setAuthor(scanner.nextLine());
         System.out.print("Enter the title of the book: ");
         book.setTitle(scanner.nextLine());
+        System.out.print("Enter the genre of the book: ");
+        book.setGenre(scanner.nextLine());
+        System.out.print("Enter the language of the book: ");
+        book.setLanguage(scanner.nextLine());
         System.out.print("Enter the number of pages of the book: ");
         while (true) {
             int pages = scanner.nextInt();
-            if (pages > 0) {
+            if (pages >= 0) {
                 book.setPages(pages);
                 break;
             }
             System.out.println("Incorrect input! Enter it again!");
         }
-        System.out.print("Enter the genre of the book: ");
-        book.setGenre(scanner.nextLine());
-        System.out.print("Enter the language of the book: ");
-        book.setLanguage(scanner.nextLine());
         System.out.print("Enter the price of the book: ");
         while (true) {
             BigDecimal price = scanner.nextBigDecimal();
@@ -100,6 +100,8 @@ public class Main {
             }
             System.out.println("Incorrect input! Enter it again!");
         }
+        //Here, the scanner is called to clear the scanner's clipboard of \n that was left after the call scanner.NextBigDecimal()
+        scanner.nextLine();
         return book;
     }
 }
