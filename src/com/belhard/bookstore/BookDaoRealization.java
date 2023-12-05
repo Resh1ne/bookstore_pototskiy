@@ -115,6 +115,7 @@ public class BookDaoRealization implements BookDao {
         return null;
     }
 
+    @Override
     public Book findByIsbn(String isbn) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             PreparedStatement statement = connection.prepareStatement(READ_BY_ISBN);
@@ -139,6 +140,7 @@ public class BookDaoRealization implements BookDao {
         return null;
     }
 
+    @Override
     public List<Book> findByAuthor(String author) {
         List<Book> books = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {

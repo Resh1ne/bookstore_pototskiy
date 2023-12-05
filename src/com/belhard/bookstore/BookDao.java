@@ -15,7 +15,6 @@ public interface BookDao {
 
     boolean delete(Long id);
     //DELETE FROM books WHERE id = ?;
-
     Book findByIsbn(String isbn);
 
     List<Book> findByAuthor(String author);
