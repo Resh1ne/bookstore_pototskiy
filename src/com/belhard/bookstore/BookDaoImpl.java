@@ -10,7 +10,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookDaoRealization implements BookDao {
+public class BookDaoImpl implements BookDao {
     private static final String CREATION_QUERY = "INSERT INTO books (author, isbn, title, pages, publication_date, genre, \"language\", price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String PASSWORD = "root";
     private static final String USER = "postgres";

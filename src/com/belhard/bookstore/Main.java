@@ -44,7 +44,7 @@ public class Main {
     }
 
     private static boolean usingMenu(String userInput, Long id, String command, Scanner scanner) {
-        BookDao bookDao = new BookDaoRealization();
+        BookDao bookDao = new BookDaoImpl();
         if (userInput.equals("/all")) {
             List<Book> books = bookDao.readAll();
             for (Book book : books) {
