@@ -24,9 +24,6 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Book create(Book book) {
-        if (checkAvailability(book)) {
-            throw new RuntimeException("This object already exists");
-        }
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             PreparedStatement statement = connection.prepareStatement(CREATION_QUERY);
             statement.setString(1, book.getAuthor());
@@ -58,11 +55,6 @@ public class BookDaoImpl implements BookDao {
         } else {
             statement.setDouble(index, value);
         }
-    }
-
-    private boolean checkAvailability(Book book) {
-        List<Book> allBooks = findAll();
-        return allBooks.contains(book);
     }
 
     @Override
