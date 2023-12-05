@@ -1,5 +1,6 @@
 package com.belhard.bookstore;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -12,7 +13,7 @@ public class Book {
     private Date publicationDate;
     private String genre;
     private String language;
-    private Double price;
+    private BigDecimal price;
 
     public String getAuthor() {
         return author;
@@ -78,11 +79,11 @@ public class Book {
         this.language = language;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

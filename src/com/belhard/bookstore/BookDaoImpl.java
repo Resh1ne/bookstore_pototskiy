@@ -1,5 +1,6 @@
 package com.belhard.bookstore;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -33,7 +34,7 @@ public class BookDaoImpl implements BookDao {
             statement.setDate(5, book.getPublicationDate());
             statement.setString(6, book.getGenre());
             statement.setString(7, book.getLanguage());
-            setNullDouble(8, book.getPrice(), statement);
+            setNullBigDecimal(8, book.getPrice(), statement);
             statement.executeUpdate();
             return book;
         } catch (SQLException e) {
@@ -49,11 +50,11 @@ public class BookDaoImpl implements BookDao {
         }
     }
 
-    private void setNullDouble(int index, Double value, PreparedStatement statement) throws SQLException {
+    private void setNullBigDecimal(int index, BigDecimal value, PreparedStatement statement) throws SQLException {
         if (value == null) {
             statement.setNull(index, Types.DOUBLE);
         } else {
-            statement.setDouble(index, value);
+            statement.setBigDecimal(index, value);
         }
     }
 
@@ -73,7 +74,7 @@ public class BookDaoImpl implements BookDao {
                 book.setPublicationDate(resultSet.getDate("publication_date"));
                 book.setGenre(resultSet.getString("genre"));
                 book.setLanguage(resultSet.getString("language"));
-                book.setPrice(resultSet.getDouble("price"));
+                book.setPrice(resultSet.getBigDecimal("price"));
                 books.add(book);
             }
         } catch (SQLException e) {
@@ -98,7 +99,7 @@ public class BookDaoImpl implements BookDao {
                 book.setPublicationDate(resultSet.getDate("publication_date"));
                 book.setGenre(resultSet.getString("genre"));
                 book.setLanguage(resultSet.getString("language"));
-                book.setPrice(resultSet.getDouble("price"));
+                book.setPrice(resultSet.getBigDecimal("price"));
                 return book;
             }
         } catch (SQLException e) {
@@ -123,7 +124,7 @@ public class BookDaoImpl implements BookDao {
                 book.setPublicationDate(resultSet.getDate("publication_date"));
                 book.setGenre(resultSet.getString("genre"));
                 book.setLanguage(resultSet.getString("language"));
-                book.setPrice(resultSet.getDouble("price"));
+                book.setPrice(resultSet.getBigDecimal("price"));
                 return book;
             }
         } catch (SQLException e) {
@@ -149,7 +150,7 @@ public class BookDaoImpl implements BookDao {
                 book.setPublicationDate(resultSet.getDate("publication_date"));
                 book.setGenre(resultSet.getString("genre"));
                 book.setLanguage(resultSet.getString("language"));
-                book.setPrice(resultSet.getDouble("price"));
+                book.setPrice(resultSet.getBigDecimal("price"));
                 books.add(book);
             }
         } catch (SQLException e) {
@@ -169,7 +170,7 @@ public class BookDaoImpl implements BookDao {
             statement.setDate(5, book.getPublicationDate());
             statement.setString(6, book.getGenre());
             statement.setString(7, book.getLanguage());
-            setNullDouble(8, book.getPrice(), statement);
+            setNullBigDecimal(8, book.getPrice(), statement);
             statement.setLong(9, book.getId());
 
             int rowsAffected = statement.executeUpdate();

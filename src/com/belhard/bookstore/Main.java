@@ -1,5 +1,6 @@
 package com.belhard.bookstore;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -92,8 +93,8 @@ public class Main {
         book.setLanguage(scanner.nextLine());
         System.out.print("Enter the price of the book: ");
         while (true) {
-            double price = scanner.nextInt();
-            if (price > 0) {
+            BigDecimal price = scanner.nextBigDecimal();
+            if (price.compareTo(BigDecimal.ZERO) >= 0) {
                 book.setPrice(price);
                 break;
             }
