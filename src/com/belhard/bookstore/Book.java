@@ -109,7 +109,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return "com.belhard.bookstore.Book{" +
+        return "Book{" +
                 "id=" + id +
                 ", isbn='" + isbn + '\'' +
                 ", author='" + author + '\'' +
@@ -122,8 +122,8 @@ public class Book {
                 '}';
     }
 
-    public String shortToString(){
-        return "com.belhard.bookstore.Book{" +
+    public String shortToString() {
+        return "Book{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
