@@ -123,6 +123,7 @@ public class Book {
                 '}';
     }
 
+    @SuppressWarnings("unused")
     public String shortToString() {
         return "Book{" +
                 "id=" + id +
