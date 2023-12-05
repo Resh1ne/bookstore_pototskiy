@@ -1,5 +1,5 @@
 # Requirements
-- Database postgresql
+- Database ```postgresql```
 - User: ```postgres```
 - Password: ```root```
 - Database name: ```bookstore_pototskiy```
