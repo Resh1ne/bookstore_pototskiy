@@ -46,14 +46,14 @@ public class Main {
     private static boolean usingMenu(String userInput, Long id, String command, Scanner scanner) {
         BookDao bookDao = new BookDaoImpl();
         if (userInput.equals("/all")) {
-            List<Book> books = bookDao.readAll();
+            List<Book> books = bookDao.findAll();
             for (Book book : books) {
                 System.out.println(book.toString());
             }
         } else if (userInput.equals("/exit")) {
             return false;
         } else if (id > 0 && "/get{}".equals(command)) {
-            Book book = bookDao.readById(id);
+            Book book = bookDao.findById(id);
             System.out.println(book);
         } else if (id > 0 && "/delete{}".equals(command)) {
             boolean deleted = bookDao.delete(id);

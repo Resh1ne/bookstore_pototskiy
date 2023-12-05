@@ -61,12 +61,12 @@ public class BookDaoImpl implements BookDao {
     }
 
     private boolean checkAvailability(Book book) {
-        List<Book> allBooks = readAll();
+        List<Book> allBooks = findAll();
         return allBooks.contains(book);
     }
 
     @Override
-    public List<Book> readAll() {
+    public List<Book> findAll() {
         List<Book> books = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             Statement statement = connection.createStatement();
@@ -91,7 +91,7 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public Book readById(Long id) {
+    public Book findById(Long id) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             PreparedStatement statement = connection.prepareStatement(READ_BY_ID_QUERY);
             statement.setLong(1, id);
@@ -207,6 +207,6 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public long countAll() {
-        return readAll().size();
+        return findAll().size();
     }
 }

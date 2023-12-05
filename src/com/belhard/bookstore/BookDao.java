@@ -5,9 +5,9 @@ import java.util.List;
 public interface BookDao {
     Book create(Book book);
 
-    Book readById(Long id);
+    Book findById(Long id);
 
-    List<Book> readAll();
+    List<Book> findAll();
 
     Book update(Book book);
 
