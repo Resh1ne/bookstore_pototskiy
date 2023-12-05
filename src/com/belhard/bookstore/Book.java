@@ -1,5 +1,6 @@
+package com.belhard.bookstore;
+
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.Objects;
 
 public class Book {
@@ -108,7 +109,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "com.belhard.bookstore.Book{" +
                 "id=" + id +
                 ", isbn='" + isbn + '\'' +
                 ", author='" + author + '\'' +
@@ -122,7 +123,7 @@ public class Book {
     }
 
     public String shortToString(){
-        return "Book{" +
+        return "com.belhard.bookstore.Book{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +

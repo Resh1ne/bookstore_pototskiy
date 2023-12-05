@@ -1,3 +1,5 @@
+package com.belhard.bookstore;
+
 import java.util.List;
 
 public interface BookDao {
