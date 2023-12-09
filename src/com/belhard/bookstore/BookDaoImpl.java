@@ -22,6 +22,7 @@ public class BookDaoImpl implements BookDao {
     private static final String UPDATE_QUERY = "UPDATE books SET  author = ?, isbn = ?, title = ?, pages = ?, publication_date = ?, genre = ?, \"language\" = ?, price = ? WHERE id = ?";
     private static final String DELETE_QUERY = "DELETE FROM books WHERE id = ?";
     private static final String FIND_BY_AUTHOR_QUERY = "SELECT id, author, isbn, title, pages, publication_date, genre, \"language\", price FROM books WHERE author = ?";
+    public static final String COUNT_QUERY = "SELECT COUNT(*) FROM books";
 
     @Override
     public Book create(Book book) {
@@ -181,6 +182,15 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public long countAll() {
-        return findAll().size();
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)){
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(COUNT_QUERY);
+            if (resultSet.next()) {
+                return resultSet.getLong("count");
+            }
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        throw new RuntimeException("The values could not be calculated");
     }
 }
