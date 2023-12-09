@@ -31,7 +31,7 @@ public class BookDaoImpl implements BookDao {
             statement.setString(2, book.getIsbn());
             statement.setString(3, book.getTitle());
             setNullInt(4, book.getPages(), statement);
-            statement.setDate(5, book.getPublicationDate());
+            statement.setInt(5, book.getPublicationYear());
             statement.setString(6, book.getGenre());
             statement.setString(7, book.getLanguage());
             setNullBigDecimal(8, book.getPrice(), statement);
@@ -71,7 +71,7 @@ public class BookDaoImpl implements BookDao {
                 book.setIsbn(resultSet.getString("isbn"));
                 book.setTitle(resultSet.getString("title"));
                 book.setPages(resultSet.getInt("pages"));
-                book.setPublicationDate(resultSet.getDate("publication_date"));
+                book.setPublicationDate(resultSet.getInt("publication_date"));
                 book.setGenre(resultSet.getString("genre"));
                 book.setLanguage(resultSet.getString("language"));
                 book.setPrice(resultSet.getBigDecimal("price"));
@@ -96,7 +96,7 @@ public class BookDaoImpl implements BookDao {
                 book.setIsbn(resultSet.getString("isbn"));
                 book.setTitle(resultSet.getString("title"));
                 book.setPages(resultSet.getInt("pages"));
-                book.setPublicationDate(resultSet.getDate("publication_date"));
+                book.setPublicationDate(resultSet.getInt("publication_date"));
                 book.setGenre(resultSet.getString("genre"));
                 book.setLanguage(resultSet.getString("language"));
                 book.setPrice(resultSet.getBigDecimal("price"));
@@ -121,7 +121,7 @@ public class BookDaoImpl implements BookDao {
                 book.setIsbn(resultSet.getString("isbn"));
                 book.setTitle(resultSet.getString("title"));
                 book.setPages(resultSet.getInt("pages"));
-                book.setPublicationDate(resultSet.getDate("publication_date"));
+                book.setPublicationDate(resultSet.getInt("publication_date"));
                 book.setGenre(resultSet.getString("genre"));
                 book.setLanguage(resultSet.getString("language"));
                 book.setPrice(resultSet.getBigDecimal("price"));
@@ -147,7 +147,7 @@ public class BookDaoImpl implements BookDao {
                 book.setIsbn(resultSet.getString("isbn"));
                 book.setTitle(resultSet.getString("title"));
                 book.setPages(resultSet.getInt("pages"));
-                book.setPublicationDate(resultSet.getDate("publication_date"));
+                book.setPublicationDate(resultSet.getInt("publication_date"));
                 book.setGenre(resultSet.getString("genre"));
                 book.setLanguage(resultSet.getString("language"));
                 book.setPrice(resultSet.getBigDecimal("price"));
@@ -167,7 +167,7 @@ public class BookDaoImpl implements BookDao {
             statement.setString(2, book.getIsbn());
             statement.setString(3, book.getTitle());
             setNullInt(4, book.getPages(), statement);
-            statement.setDate(5, book.getPublicationDate());
+            statement.setInt(5, book.getPublicationYear());
             statement.setString(6, book.getGenre());
             statement.setString(7, book.getLanguage());
             setNullBigDecimal(8, book.getPrice(), statement);

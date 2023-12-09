@@ -1,7 +1,6 @@
 package com.belhard.bookstore;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.Objects;
 
 public class Book {
@@ -10,7 +9,7 @@ public class Book {
     private String author;
     private String title;
     private Integer pages;
-    private Date publicationDate;
+    private Integer publicationYear;
     private String genre;
     private String language;
     private BigDecimal price;
@@ -55,12 +54,12 @@ public class Book {
         this.pages = pages;
     }
 
-    public Date getPublicationDate() {
-        return publicationDate;
+    public Integer getPublicationYear() {
+        return publicationYear;
     }
 
-    public void setPublicationDate(Date publicationDate) {
-        this.publicationDate = publicationDate;
+    public void setPublicationDate(Integer publicationYear) {
+        this.publicationYear = publicationYear;
     }
 
     public String getGenre() {
@@ -97,7 +96,7 @@ public class Book {
                 && Objects.equals(title, book.title) //
                 && Objects.equals(id, book.id) //
                 && Objects.equals(pages, book.pages) //
-                && Objects.equals(publicationDate, book.publicationDate) //
+                && Objects.equals(publicationYear, book.publicationYear) //
                 && Objects.equals(genre, book.genre) //
                 && Objects.equals(language, book.language) //
                 && Objects.equals(price, book.price);
@@ -105,7 +104,7 @@ public class Book {
 
     @Override
     public int hashCode() {
-        return Objects.hash(author, isbn, title, id, pages, publicationDate, genre, language, price);
+        return Objects.hash(author, isbn, title, id, pages, publicationYear, genre, language, price);
     }
 
     @Override
@@ -116,7 +115,7 @@ public class Book {
                 ", author='" + author + '\'' +
                 ", title='" + title + '\'' +
                 ", pages=" + pages +
-                ", publicationDate='" + publicationDate + '\'' +
+                ", publicationDate='" + publicationYear + '\'' +
                 ", genre='" + genre + '\'' +
                 ", language='" + language + '\'' +
                 ", price=" + price +
@@ -129,7 +128,7 @@ public class Book {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
-                ", publicationDate='" + publicationDate + '\'' +
+                ", publicationDate='" + publicationYear + '\'' +
                 '}';
     }
 }
