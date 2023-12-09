@@ -26,7 +26,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book create(Book book) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
-            PreparedStatement statement = connection.prepareStatement(CREATION_QUERY);
+            PreparedStatement statement = connection.prepareStatement(CREATION_QUERY, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, book.getAuthor());
             statement.setString(2, book.getIsbn());
             statement.setString(3, book.getTitle());
@@ -36,10 +36,15 @@ public class BookDaoImpl implements BookDao {
             statement.setString(7, book.getLanguage());
             setNullBigDecimal(8, book.getPrice(), statement);
             statement.executeUpdate();
-            return book;
+            ResultSet keys = statement.getGeneratedKeys();
+            if(keys.next()){
+                long id = keys.getLong("id");
+                return findById(id);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        throw new RuntimeException("Can't create book: " + book);
     }
 
     private void setNullInt(int index, Integer value, PreparedStatement statement) throws SQLException {
