@@ -1,6 +1,7 @@
 package com.belhard.bookstore;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -11,6 +12,8 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Pattern pattern = Pattern.compile("\\d+");
 
+        BookDao bookDao = new BookDaoImpl();
+        System.out.println(bookDao.countAll());
         while (true) {
             printMenu();
 
@@ -96,6 +99,15 @@ public class Main {
             BigDecimal price = scanner.nextBigDecimal();
             if (price.compareTo(BigDecimal.ZERO) >= 0) {
                 book.setPrice(price);
+                break;
+            }
+            System.out.println("Incorrect input! Enter it again!");
+        }
+        System.out.print("Enter the publication year of the book: ");
+        while (true) {
+            int year = scanner.nextInt();
+            if (year > 1000 && year < LocalDate.now().getYear()) {
+                book.setPublicationYear(year);
                 break;
             }
             System.out.println("Incorrect input! Enter it again!");
