@@ -70,16 +70,7 @@ public class BookDaoImpl implements BookDao {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(READ_ALL_QUERY);
             while (resultSet.next()) {
-                Book book = new Book();
-                book.setId(resultSet.getLong("id"));
-                book.setAuthor(resultSet.getString("author"));
-                book.setIsbn(resultSet.getString("isbn"));
-                book.setTitle(resultSet.getString("title"));
-                book.setPages(resultSet.getInt("pages"));
-                book.setPublicationDate(resultSet.getInt("publication_date"));
-                book.setGenre(resultSet.getString("genre"));
-                book.setLanguage(resultSet.getString("language"));
-                book.setPrice(resultSet.getBigDecimal("price"));
+                Book book = mapRow(resultSet);
                 books.add(book);
             }
         } catch (SQLException e) {
@@ -95,17 +86,7 @@ public class BookDaoImpl implements BookDao {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                Book book = new Book();
-                book.setId(resultSet.getLong("id"));
-                book.setAuthor(resultSet.getString("author"));
-                book.setIsbn(resultSet.getString("isbn"));
-                book.setTitle(resultSet.getString("title"));
-                book.setPages(resultSet.getInt("pages"));
-                book.setPublicationDate(resultSet.getInt("publication_date"));
-                book.setGenre(resultSet.getString("genre"));
-                book.setLanguage(resultSet.getString("language"));
-                book.setPrice(resultSet.getBigDecimal("price"));
-                return book;
+                return mapRow(resultSet);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -120,17 +101,7 @@ public class BookDaoImpl implements BookDao {
             statement.setString(1, isbn);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                Book book = new Book();
-                book.setId(resultSet.getLong("id"));
-                book.setAuthor(resultSet.getString("author"));
-                book.setIsbn(resultSet.getString("isbn"));
-                book.setTitle(resultSet.getString("title"));
-                book.setPages(resultSet.getInt("pages"));
-                book.setPublicationDate(resultSet.getInt("publication_date"));
-                book.setGenre(resultSet.getString("genre"));
-                book.setLanguage(resultSet.getString("language"));
-                book.setPrice(resultSet.getBigDecimal("price"));
-                return book;
+                return mapRow(resultSet);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -146,22 +117,27 @@ public class BookDaoImpl implements BookDao {
             statement.setString(1, author);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Book book = new Book();
-                book.setId(resultSet.getLong("id"));
-                book.setAuthor(resultSet.getString("author"));
-                book.setIsbn(resultSet.getString("isbn"));
-                book.setTitle(resultSet.getString("title"));
-                book.setPages(resultSet.getInt("pages"));
-                book.setPublicationDate(resultSet.getInt("publication_date"));
-                book.setGenre(resultSet.getString("genre"));
-                book.setLanguage(resultSet.getString("language"));
-                book.setPrice(resultSet.getBigDecimal("price"));
+                Book book = mapRow(resultSet);
                 books.add(book);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return books;
+    }
+
+    private static Book mapRow(ResultSet resultSet) throws SQLException {
+        Book book = new Book();
+        book.setId(resultSet.getLong("id"));
+        book.setAuthor(resultSet.getString("author"));
+        book.setIsbn(resultSet.getString("isbn"));
+        book.setTitle(resultSet.getString("title"));
+        book.setPages(resultSet.getInt("pages"));
+        book.setPublicationDate(resultSet.getInt("publication_date"));
+        book.setGenre(resultSet.getString("genre"));
+        book.setLanguage(resultSet.getString("language"));
+        book.setPrice(resultSet.getBigDecimal("price"));
+        return book;
     }
 
     @Override
