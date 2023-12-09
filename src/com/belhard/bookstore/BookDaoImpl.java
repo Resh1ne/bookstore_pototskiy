@@ -181,7 +181,7 @@ public class BookDaoImpl implements BookDao {
             int rowsAffected = statement.executeUpdate();
 
             if (rowsAffected > 0) {
-                return book;
+                return findById(book.getId());
             } else {
                 throw new RuntimeException("Failed to update book. No rows affected.");
             }
