@@ -4,7 +4,7 @@ CREATE TABLE books (
     isbn VARCHAR(20),
     title VARCHAR(255),
     pages INTEGER,
-    publication_date DATE,
+    publication_date INTEGER,
     genre VARCHAR(50),
     language VARCHAR(50),
     price DECIMAL(10, 2)
