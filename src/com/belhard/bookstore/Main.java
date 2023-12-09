@@ -39,8 +39,10 @@ public class Main {
         String commandDelete = "\u001B[35m" + "/delete{id}" + "\u001B[0m\n";
         String commandExit = "\u001B[35m" + "/exit" + "\u001B[0m\n";
         String commandCreate = "\u001B[35m" + "/create" + "\u001B[0m\n";
+        String commandUpdate = "\u001B[35m" + "/update{id}" + "\u001B[0m\n";
         System.out.print("-------Menu-------\n" +
                 "~To view all the books, enter: " + commandAll +
+                "~To update the book, enter: " + commandUpdate +
                 "~To display detailed information about the book, enter: " + commandGet +
                 "~To delete a book, enter: " + commandDelete +
                 "~To create a book, enter: " + commandCreate +
@@ -49,7 +51,10 @@ public class Main {
 
     private static boolean usingMenu(String userInput, Long id, String command, Scanner scanner) {
         BookDao bookDao = new BookDaoImpl();
-        if (userInput.equals("/all")) {
+        if(id > 0 && "/update{}".equals(command)){
+            Book book = updateBook(scanner, bookDao, id);
+            System.out.println(bookDao.update(book).toString());
+        }else if (userInput.equals("/all")) {
             List<Book> books = bookDao.findAll();
             for (Book book : books) {
                 System.out.println(book.toString());
@@ -66,13 +71,27 @@ public class Main {
             Book book = createBookWithoutID(scanner);
             Book createdBook = bookDao.create(book);
             System.out.println(createdBook.toString());
-
         } else {
             System.out.println("Incorrect command!");
         }
         return true;
     }
 
+    private  static Book updateBook(Scanner scanner, BookDao bookDao, long id){
+        while (true) {
+            if(bookDao.findById(id) == null){
+                System.out.println("There is no user with this id! Enter it again!");
+                id = scanner.nextLong();
+                continue;
+            }
+            break;
+        }
+        //Here, the scanner is called to clear the scanner's clipboard of \n that was left after the call scanner.NextLong()
+        scanner.nextLine();
+        Book book = createBookWithoutID(scanner);
+        book.setId(id);
+        return book;
+    }
     private static Book createBookWithoutID(Scanner scanner) {
         Book book = new Book();
         System.out.print("Enter the ISBN of the book: ");
