@@ -12,6 +12,7 @@ public interface BookDao {
     Book update(Book book);
 
     boolean delete(Long id);
+
     Book findByIsbn(String isbn);
 
     List<Book> findByAuthor(String author);

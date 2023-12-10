@@ -38,7 +38,7 @@ public class BookDaoImpl implements BookDao {
             setNullBigDecimal(8, book.getPrice(), statement);
             statement.executeUpdate();
             ResultSet keys = statement.getGeneratedKeys();
-            if(keys.next()){
+            if (keys.next()) {
                 long id = keys.getLong("id");
                 return findById(id);
             }
@@ -182,13 +182,13 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public long countAll() {
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)){
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(COUNT_QUERY);
             if (resultSet.next()) {
                 return resultSet.getLong("count");
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         throw new RuntimeException("The values could not be calculated");
