@@ -82,12 +82,12 @@ public class Main {
             if (bookDao.findById(id) == null) {
                 System.out.println("There is no user with this id! Enter it again!");
                 id = scanner.nextLong();
+                //Here, the scanner is called to clear the scanner's clipboard of \n that was left after the call scanner.NextLong()
+                scanner.nextLine();
                 continue;
             }
             break;
         }
-        //Here, the scanner is called to clear the scanner's clipboard of \n that was left after the call scanner.NextLong()
-        scanner.nextLine();
         Book book = createBookWithoutID(scanner);
         book.setId(id);
         return book;
@@ -123,12 +123,12 @@ public class Main {
 
     private static void setGenre(Scanner scanner, Book book) {
         System.out.print("Enter the genre of the book: ");
-        book.setGenre(scanner.nextLine());
+        book.setGenre(GenresOfTheBook.valueOf(scanner.nextLine()));
     }
 
     private static void setLanguage(Scanner scanner, Book book) {
         System.out.print("Enter the language of the book: ");
-        book.setLanguage(scanner.nextLine());
+        book.setLanguage(LanguagesOfTheBook.valueOf(scanner.nextLine()));
     }
 
     private static void setPages(Scanner scanner, Book book) {

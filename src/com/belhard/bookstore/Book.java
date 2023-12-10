@@ -10,8 +10,8 @@ public class Book {
     private String title;
     private Integer pages;
     private Integer publicationYear;
-    private String genre;
-    private String language;
+    private GenresOfTheBook genre;
+    private LanguagesOfTheBook language;
     private BigDecimal price;
 
     public String getAuthor() {
@@ -62,19 +62,19 @@ public class Book {
         this.publicationYear = publicationYear;
     }
 
-    public String getGenre() {
+    public GenresOfTheBook getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(GenresOfTheBook genre) {
         this.genre = genre;
     }
 
-    public String getLanguage() {
+    public LanguagesOfTheBook getLanguage() {
         return language;
     }
 
-    public void setLanguage(String language) {
+    public void setLanguage(LanguagesOfTheBook language) {
         this.language = language;
     }
 
