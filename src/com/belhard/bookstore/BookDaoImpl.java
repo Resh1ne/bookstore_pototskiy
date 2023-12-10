@@ -12,16 +12,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookDaoImpl implements BookDao {
-    private static final String CREATION_QUERY = "INSERT INTO books (author, isbn, title, pages, publication_date, genre, \"language\", price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String PASSWORD = "root";
     private static final String USER = "postgres";
     private static final String URL = "jdbc:postgresql://127.0.0.1:5432/bookstore_pototskiy";
-    private static final String READ_ALL_QUERY = "SELECT id, author, isbn, title, pages, publication_date, genre, \"language\", price FROM books";
-    private static final String READ_BY_ID_QUERY = "SELECT id, author, isbn, title, pages, publication_date, genre, \"language\", price FROM books WHERE id = ?";
-    private static final String READ_BY_ISBN = "SELECT id, author, isbn, title, pages, publication_date, genre, \"language\", price FROM books WHERE isbn = ?";
-    private static final String UPDATE_QUERY = "UPDATE books SET  author = ?, isbn = ?, title = ?, pages = ?, publication_date = ?, genre = ?, \"language\" = ?, price = ? WHERE id = ?";
+    private static final String CREATION_QUERY = "INSERT INTO books " +
+            "(author, isbn, title, pages, publication_date, genre_id, language_id, price) " +
+            "VALUES (?, ?, ?, ?, ?, (SELECT id FROM genres g WHERE g.genre = ?), (SELECT id FROM languages l WHERE l.language = ?), ?)";
+    private static final String FIND_ALL_QUERY = "SELECT b.id, b.author, b.isbn, b.title, b.pages, b.publication_date, g.genre, l.language, b.price " +
+            "FROM books b " +
+            "JOIN genres g ON b.genre_id = g.id " +
+            "JOIN languages l ON b.language_id = l.id ";
+    private static final String FIND_BY_ID_QUERY = "SELECT b.id, b.author, b.isbn, b.title, b.pages, b.publication_date, g.genre, l.language, b.price " +
+            "FROM books b " +
+            "JOIN genres g ON b.genre_id = g.id " +
+            "JOIN languages l ON b.language_id = l.id " +
+            "WHERE b.id = ?";
+    private static final String FIND_BY_ISBN = "SELECT b.id, b.author, b.isbn, b.title, b.pages, b.publication_date, g.genre, l.language, b.price " +
+            "FROM books b " +
+            "JOIN genres g ON b.genre_id = g.id " +
+            "JOIN languages l ON b.language_id = l.id " +
+            "WHERE b.isbn = ?";
+    private static final String UPDATE_QUERY = "UPDATE books " +
+            "SET " +
+            "author = ?, " +
+            "isbn = ?, " +
+            "title = ?," +
+            "pages = ?, " +
+            "publication_date = ?, " +
+            "genre_id = (SELECT id FROM genres g WHERE g.genre = ?), " +
+            "language_id = (SELECT id FROM languages l WHERE l.language = ?), " +
+            "price = ?" +
+            "WHERE id = ?";
     private static final String DELETE_QUERY = "DELETE FROM books WHERE id = ?";
-    private static final String FIND_BY_AUTHOR_QUERY = "SELECT id, author, isbn, title, pages, publication_date, genre, \"language\", price FROM books WHERE author = ?";
+    private static final String FIND_BY_AUTHOR_QUERY = "SELECT b.id, b.author, b.isbn, b.title, b.pages, b.publication_date, g.genre, l.language, b.price " +
+            "FROM books b " +
+            "JOIN genres g ON b.genre_id = g.id " +
+            "JOIN languages l ON b.language_id = l.id " +
+            "WHERE b.author = ?";
     public static final String COUNT_QUERY = "SELECT COUNT(*) FROM books";
 
     @Override
@@ -69,7 +96,7 @@ public class BookDaoImpl implements BookDao {
         List<Book> books = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(READ_ALL_QUERY);
+            ResultSet resultSet = statement.executeQuery(FIND_ALL_QUERY);
             while (resultSet.next()) {
                 Book book = mapRow(resultSet);
                 books.add(book);
@@ -83,7 +110,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book findById(Long id) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
-            PreparedStatement statement = connection.prepareStatement(READ_BY_ID_QUERY);
+            PreparedStatement statement = connection.prepareStatement(FIND_BY_ID_QUERY);
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -98,7 +125,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book findByIsbn(String isbn) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
-            PreparedStatement statement = connection.prepareStatement(READ_BY_ISBN);
+            PreparedStatement statement = connection.prepareStatement(FIND_BY_ISBN);
             statement.setString(1, isbn);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
