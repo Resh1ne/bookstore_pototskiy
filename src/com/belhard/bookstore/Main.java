@@ -11,7 +11,13 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Pattern pattern = Pattern.compile("\\d+");
-        BookDao bookDao = new BookDaoImpl();
+
+        PropertiesManager propertiesManager = new PropertiesManagerImpl("app.properties");
+        String url = propertiesManager.getKey("my.app.db.url");
+        String user = propertiesManager.getKey("my.app.db.user");
+        String password = propertiesManager.getKey("my.app.db.password");
+        DataSource dataSource = new DataSourceImpl(password, user, url);
+        BookDao bookDao = new BookDaoImpl(dataSource);
         System.out.println(bookDao.countAll());
 
         while (true) {
@@ -27,7 +33,7 @@ public class Main {
                 command = matcher.replaceAll("");
             }
 
-            if (!usingMenu(userInput, id, command, scanner)) {
+            if (!usingMenu(userInput, id, command, scanner, bookDao)) {
                 return;
             }
         }
@@ -49,8 +55,7 @@ public class Main {
                 "~To exit, enter: " + commandExit);
     }
 
-    private static boolean usingMenu(String userInput, Long id, String command, Scanner scanner) {
-        BookDao bookDao = new BookDaoImpl();
+    private static boolean usingMenu(String userInput, Long id, String command, Scanner scanner, BookDao bookDao) {
         if (id > 0 && "/update{}".equals(command)) {
             Book book = updateBook(scanner, bookDao, id);
             System.out.println(bookDao.update(book).toString());
