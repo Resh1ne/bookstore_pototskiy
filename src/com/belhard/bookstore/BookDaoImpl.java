@@ -16,18 +16,18 @@ public class BookDaoImpl implements BookDao {
     private static final String USER = "postgres";
     private static final String URL = "jdbc:postgresql://127.0.0.1:5432/bookstore_pototskiy";
     private static final String CREATION_QUERY = "INSERT INTO books " +
-            "(author, isbn, title, pages, publication_date, genre_id, language_id, price) " +
+            "(author, isbn, title, pages, publication_year, genre_id, language_id, price) " +
             "VALUES (?, ?, ?, ?, ?, (SELECT id FROM genres g WHERE g.genre = ?), (SELECT id FROM languages l WHERE l.language = ?), ?)";
-    private static final String FIND_ALL_QUERY = "SELECT b.id, b.author, b.isbn, b.title, b.pages, b.publication_date, g.genre, l.language, b.price " +
+    private static final String FIND_ALL_QUERY = "SELECT b.id, b.author, b.isbn, b.title, b.pages, b.publication_year, g.genre, l.language, b.price " +
             "FROM books b " +
             "JOIN genres g ON b.genre_id = g.id " +
             "JOIN languages l ON b.language_id = l.id ";
-    private static final String FIND_BY_ID_QUERY = "SELECT b.id, b.author, b.isbn, b.title, b.pages, b.publication_date, g.genre, l.language, b.price " +
+    private static final String FIND_BY_ID_QUERY = "SELECT b.id, b.author, b.isbn, b.title, b.pages, b.publication_year, g.genre, l.language, b.price " +
             "FROM books b " +
             "JOIN genres g ON b.genre_id = g.id " +
             "JOIN languages l ON b.language_id = l.id " +
             "WHERE b.id = ?";
-    private static final String FIND_BY_ISBN = "SELECT b.id, b.author, b.isbn, b.title, b.pages, b.publication_date, g.genre, l.language, b.price " +
+    private static final String FIND_BY_ISBN = "SELECT b.id, b.author, b.isbn, b.title, b.pages, b.publication_year, g.genre, l.language, b.price " +
             "FROM books b " +
             "JOIN genres g ON b.genre_id = g.id " +
             "JOIN languages l ON b.language_id = l.id " +
@@ -38,13 +38,13 @@ public class BookDaoImpl implements BookDao {
             "isbn = ?, " +
             "title = ?," +
             "pages = ?, " +
-            "publication_date = ?, " +
+            "publication_year = ?, " +
             "genre_id = (SELECT id FROM genres g WHERE g.genre = ?), " +
             "language_id = (SELECT id FROM languages l WHERE l.language = ?), " +
-            "price = ?" +
+            "price = ? " +
             "WHERE id = ?";
     private static final String DELETE_QUERY = "DELETE FROM books WHERE id = ?";
-    private static final String FIND_BY_AUTHOR_QUERY = "SELECT b.id, b.author, b.isbn, b.title, b.pages, b.publication_date, g.genre, l.language, b.price " +
+    private static final String FIND_BY_AUTHOR_QUERY = "SELECT b.id, b.author, b.isbn, b.title, b.pages, b.publication_year, g.genre, l.language, b.price " +
             "FROM books b " +
             "JOIN genres g ON b.genre_id = g.id " +
             "JOIN languages l ON b.language_id = l.id " +
@@ -60,8 +60,8 @@ public class BookDaoImpl implements BookDao {
             statement.setString(3, book.getTitle());
             setNullInt(4, book.getPages(), statement);
             statement.setInt(5, book.getPublicationYear());
-            statement.setString(6, book.getGenre());
-            statement.setString(7, book.getLanguage());
+            statement.setString(6, book.getGenre().toString());
+            statement.setString(7, book.getLanguage().toString());
             setNullBigDecimal(8, book.getPrice(), statement);
             statement.executeUpdate();
             ResultSet keys = statement.getGeneratedKeys();
@@ -161,9 +161,9 @@ public class BookDaoImpl implements BookDao {
         book.setIsbn(resultSet.getString("isbn"));
         book.setTitle(resultSet.getString("title"));
         book.setPages(resultSet.getInt("pages"));
-        book.setPublicationYear(resultSet.getInt("publication_date"));
-        book.setGenre(resultSet.getString("genre"));
-        book.setLanguage(resultSet.getString("language"));
+        book.setPublicationYear(resultSet.getInt("publication_year"));
+        book.setGenre(GenresOfTheBook.valueOf(resultSet.getString("genre")));
+        book.setLanguage(LanguagesOfTheBook.valueOf(resultSet.getString("language")));
         book.setPrice(resultSet.getBigDecimal("price"));
         return book;
     }
@@ -177,8 +177,8 @@ public class BookDaoImpl implements BookDao {
             statement.setString(3, book.getTitle());
             setNullInt(4, book.getPages(), statement);
             statement.setInt(5, book.getPublicationYear());
-            statement.setString(6, book.getGenre());
-            statement.setString(7, book.getLanguage());
+            statement.setString(6, book.getGenre().toString());
+            statement.setString(7, book.getLanguage().toString());
             setNullBigDecimal(8, book.getPrice(), statement);
             statement.setLong(9, book.getId());
 
