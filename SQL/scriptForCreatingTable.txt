@@ -43,7 +43,7 @@ CREATE TABLE books (
     isbn VARCHAR(20),
     title VARCHAR(255),
     pages INTEGER,
-    publication_date INTEGER,
+    publication_year INTEGER,
     genre_id INT2 REFERENCES genres,
     language_id INT2 REFERENCES languages,
     price DECIMAL(10, 2)
