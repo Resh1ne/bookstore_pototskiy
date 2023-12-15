@@ -10,12 +10,7 @@ import java.util.regex.Pattern;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        PropertiesManager propertiesManager = new PropertiesManagerImpl("app.properties");
-        String url = propertiesManager.getKey("my.app.db.url");
-        String user = propertiesManager.getKey("my.app.db.user");
-        String password = propertiesManager.getKey("my.app.db.password");
-        DataSource dataSource = new DataSourceImpl(password, user, url);
-        BookDao bookDao = new BookDaoImpl(dataSource);
+        BookDao bookDao = getBookDao();
         BookService bookService = new BookServiceImpl(bookDao);
 
         Pattern pattern = Pattern.compile("\\d+");
@@ -38,6 +33,16 @@ public class Main {
                 return;
             }
         }
+    }
+
+    private static BookDao getBookDao() {
+        PropertiesManager propertiesManager = new PropertiesManagerImpl("app.properties");
+        String profile = propertiesManager.getKey("my.app.profile");
+        String url = propertiesManager.getKey("my.app.db." + profile + ".url");
+        String user = propertiesManager.getKey("my.app.db." + profile + ".user");
+        String password = propertiesManager.getKey("my.app.db." + profile + ".password");
+        DataSource dataSource = new DataSourceImpl(password, user, url);
+        return new BookDaoImpl(dataSource);
     }
 
     private static void printMenu() {
