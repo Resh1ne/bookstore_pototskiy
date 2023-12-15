@@ -56,6 +56,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void delete(long id) {
+        Book book = bookDao.findById(id);
+        if (book == null){
+            throw new RuntimeException("Book with id: " + id + " not found");
+        }
         bookDao.delete(id);
     }
 
