@@ -1,6 +1,7 @@
 package com.belhard.bookstore;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class BookDto {
     private Long id;
@@ -83,5 +84,33 @@ public class BookDto {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookDto bookDto = (BookDto) o;
+        return Objects.equals(id, bookDto.id) && Objects.equals(isbn, bookDto.isbn) && Objects.equals(author, bookDto.author) && Objects.equals(title, bookDto.title) && Objects.equals(pages, bookDto.pages) && Objects.equals(publicationYear, bookDto.publicationYear) && genre == bookDto.genre && language == bookDto.language && Objects.equals(price, bookDto.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, isbn, author, title, pages, publicationYear, genre, language, price);
+    }
+
+    @Override
+    public String toString() {
+        return "BookDto{" +
+                "id=" + id +
+                ", isbn='" + isbn + '\'' +
+                ", author='" + author + '\'' +
+                ", title='" + title + '\'' +
+                ", pages=" + pages +
+                ", publicationYear=" + publicationYear +
+                ", genre=" + genre +
+                ", language=" + language +
+                ", price=" + price +
+                '}';
     }
 }
