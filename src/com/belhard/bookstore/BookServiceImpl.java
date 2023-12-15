@@ -11,7 +11,22 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto create(BookDto dto) {
-        return null;
+        Book book = toBookEntity(dto);
+        Book bookCreated = bookDao.create(book);
+        return toBookDto(bookCreated);
+    }
+
+    private Book toBookEntity(BookDto dto) {
+        Book bookEntity = new Book();
+        bookEntity.setAuthor(dto.getAuthor());
+        bookEntity.setGenre(dto.getGenre());
+        bookEntity.setIsbn(dto.getIsbn());
+        bookEntity.setLanguage(dto.getLanguage());
+        bookEntity.setPages(dto.getPages());
+        bookEntity.setPrice(dto.getPrice());
+        bookEntity.setPublicationYear(dto.getPublicationYear());
+        bookEntity.setTitle(dto.getTitle());
+        return bookEntity;
     }
 
     @Override
@@ -33,12 +48,15 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto update(BookDto dto) {
-        return null;
+        Book book = toBookEntity(dto);
+        book.setId(dto.getId());
+        Book bookCreated = bookDao.update(book);
+        return toBookDto(bookCreated);
     }
 
     @Override
     public void delete(long id) {
-
+        bookDao.delete(id);
     }
 
     private BookDto toBookDto(Book book){
