@@ -1,4 +1,6 @@
-package com.belhard.bookstore;
+package com.belhard.bookstore.service.dto;
+
+import com.belhard.bookstore.data.enums.Role;
 
 import java.util.Objects;
 

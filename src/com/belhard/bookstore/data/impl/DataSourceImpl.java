@@ -1,4 +1,6 @@
-package com.belhard.bookstore;
+package com.belhard.bookstore.data.impl;
+
+import com.belhard.bookstore.data.DataSource;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

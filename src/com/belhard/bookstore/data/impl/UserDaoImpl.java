@@ -1,4 +1,9 @@
-package com.belhard.bookstore;
+package com.belhard.bookstore.data.impl;
+
+import com.belhard.bookstore.data.enums.Role;
+import com.belhard.bookstore.data.DataSource;
+import com.belhard.bookstore.data.UserDao;
+import com.belhard.bookstore.data.entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

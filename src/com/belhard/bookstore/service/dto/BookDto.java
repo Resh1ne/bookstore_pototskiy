@@ -1,9 +1,12 @@
-package com.belhard.bookstore;
+package com.belhard.bookstore.service.dto;
+
+import com.belhard.bookstore.data.enums.GenresOfTheBook;
+import com.belhard.bookstore.data.enums.LanguagesOfTheBook;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class Book {
+public class BookDto {
     private Long id;
     private String isbn;
     private String author;
@@ -14,12 +17,12 @@ public class Book {
     private LanguagesOfTheBook language;
     private BigDecimal price;
 
-    public String getAuthor() {
-        return author;
+    public Long getId() {
+        return id;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getIsbn() {
@@ -30,20 +33,20 @@ public class Book {
         this.isbn = isbn;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Integer getPages() {
@@ -90,45 +93,27 @@ public class Book {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return Objects.equals(author, book.author) //
-                && Objects.equals(isbn, book.isbn) //
-                && Objects.equals(title, book.title) //
-                && Objects.equals(id, book.id) //
-                && Objects.equals(pages, book.pages) //
-                && Objects.equals(publicationYear, book.publicationYear) //
-                && Objects.equals(genre, book.genre) //
-                && Objects.equals(language, book.language) //
-                && Objects.equals(price, book.price);
+        BookDto bookDto = (BookDto) o;
+        return Objects.equals(id, bookDto.id) && Objects.equals(isbn, bookDto.isbn) && Objects.equals(author, bookDto.author) && Objects.equals(title, bookDto.title) && Objects.equals(pages, bookDto.pages) && Objects.equals(publicationYear, bookDto.publicationYear) && genre == bookDto.genre && language == bookDto.language && Objects.equals(price, bookDto.price);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(author, isbn, title, id, pages, publicationYear, genre, language, price);
+        return Objects.hash(id, isbn, author, title, pages, publicationYear, genre, language, price);
     }
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "BookDto{" +
                 "id=" + id +
                 ", isbn='" + isbn + '\'' +
                 ", author='" + author + '\'' +
                 ", title='" + title + '\'' +
                 ", pages=" + pages +
-                ", publicationDate='" + publicationYear + '\'' +
-                ", genre='" + genre + '\'' +
-                ", language='" + language + '\'' +
+                ", publicationYear=" + publicationYear +
+                ", genre=" + genre +
+                ", language=" + language +
                 ", price=" + price +
-                '}';
-    }
-
-    @SuppressWarnings("unused")
-    public String shortToString() {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", publicationDate='" + publicationYear + '\'' +
                 '}';
     }
 }

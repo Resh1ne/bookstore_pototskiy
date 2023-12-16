@@ -1,4 +1,10 @@
-package com.belhard.bookstore;
+package com.belhard.bookstore.data.impl;
+
+import com.belhard.bookstore.data.BookDao;
+import com.belhard.bookstore.data.DataSource;
+import com.belhard.bookstore.data.entity.Book;
+import com.belhard.bookstore.data.enums.GenresOfTheBook;
+import com.belhard.bookstore.data.enums.LanguagesOfTheBook;
 
 import java.math.BigDecimal;
 import java.sql.Connection;

@@ -1,4 +1,9 @@
-package com.belhard.bookstore;
+package com.belhard.bookstore.service.impl;
+
+import com.belhard.bookstore.data.entity.User;
+import com.belhard.bookstore.service.UserService;
+import com.belhard.bookstore.service.dto.UserDto;
+import com.belhard.bookstore.data.UserDao;
 
 import java.util.List;
 
