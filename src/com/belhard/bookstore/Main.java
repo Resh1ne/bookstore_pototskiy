@@ -10,8 +10,10 @@ import java.util.regex.Pattern;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        BookDao bookDao = getBookDao();
+        BookService bookService = new BookServiceImpl(bookDao);
+
         Pattern pattern = Pattern.compile("\\d+");
-        BookDao bookDao = new BookDaoImpl();
         System.out.println(bookDao.countAll());
 
         while (true) {
@@ -27,10 +29,20 @@ public class Main {
                 command = matcher.replaceAll("");
             }
 
-            if (!usingMenu(userInput, id, command, scanner)) {
+            if (!usingMenu(userInput, id, command, scanner, bookService)) {
                 return;
             }
         }
+    }
+
+    private static BookDao getBookDao() {
+        PropertiesManager propertiesManager = new PropertiesManagerImpl("app.properties");
+        String profile = propertiesManager.getKey("my.app.profile");
+        String url = propertiesManager.getKey("my.app.db." + profile + ".url");
+        String user = propertiesManager.getKey("my.app.db." + profile + ".user");
+        String password = propertiesManager.getKey("my.app.db." + profile + ".password");
+        DataSource dataSource = new DataSourceImpl(password, user, url);
+        return new BookDaoImpl(dataSource);
     }
 
     private static void printMenu() {
@@ -49,27 +61,25 @@ public class Main {
                 "~To exit, enter: " + commandExit);
     }
 
-    private static boolean usingMenu(String userInput, Long id, String command, Scanner scanner) {
-        BookDao bookDao = new BookDaoImpl();
+    private static boolean usingMenu(String userInput, Long id, String command, Scanner scanner, BookService bookService) {
         if (id > 0 && "/update{}".equals(command)) {
-            Book book = updateBook(scanner, bookDao, id);
-            System.out.println(bookDao.update(book).toString());
+            BookDto book = updateBook(scanner, bookService, id);
+            System.out.println(bookService.update(book).toString());
         } else if (userInput.equals("/all")) {
-            List<Book> books = bookDao.findAll();
-            for (Book book : books) {
+            List<BookDto> books = bookService.getAll();
+            for (BookDto book : books) {
                 System.out.println(book.toString());
             }
         } else if (userInput.equals("/exit")) {
             return false;
         } else if (id > 0 && "/get{}".equals(command)) {
-            Book book = bookDao.findById(id);
+            BookDto book = bookService.getById(id);
             System.out.println(book);
         } else if (id > 0 && "/delete{}".equals(command)) {
-            boolean deleted = bookDao.delete(id);
-            System.out.println(deleted);
+            bookService.delete(id);
         } else if (userInput.equals("/create")) {
-            Book book = createBookWithoutID(scanner);
-            Book createdBook = bookDao.create(book);
+            BookDto book = createBookWithoutID(scanner);
+            BookDto createdBook = bookService.create(book);
             System.out.println(createdBook.toString());
         } else {
             System.out.println("Incorrect command!");
@@ -77,9 +87,9 @@ public class Main {
         return true;
     }
 
-    private static Book updateBook(Scanner scanner, BookDao bookDao, long id) {
+    private static BookDto updateBook(Scanner scanner, BookService bookService, long id) {
         while (true) {
-            if (bookDao.findById(id) == null) {
+            if (bookService.getById(id) == null) {
                 System.out.println("There is no user with this id! Enter it again!");
                 id = scanner.nextLong();
                 //Here, the scanner is called to clear the scanner's clipboard of \n that was left after the call scanner.NextLong()
@@ -88,14 +98,14 @@ public class Main {
             }
             break;
         }
-        Book book = createBookWithoutID(scanner);
+        BookDto book = createBookWithoutID(scanner);
         book.setId(id);
         return book;
     }
 
-    private static Book createBookWithoutID(Scanner scanner) {
-        Book book = new Book();
-        setISBN(scanner, book);
+    private static BookDto createBookWithoutID(Scanner scanner) {
+        BookDto book = new BookDto();
+        setIsbn(scanner, book);
         setAuthor(scanner, book);
         setTitle(scanner, book);
         setGenre(scanner, book);
@@ -106,32 +116,32 @@ public class Main {
         return book;
     }
 
-    private static void setISBN(Scanner scanner, Book book) {
+    private static void setIsbn(Scanner scanner, BookDto book) {
         System.out.print("Enter the ISBN of the book: ");
         book.setIsbn(scanner.nextLine());
     }
 
-    private static void setAuthor(Scanner scanner, Book book) {
+    private static void setAuthor(Scanner scanner, BookDto book) {
         System.out.print("Enter the author of the book: ");
         book.setAuthor(scanner.nextLine());
     }
 
-    private static void setTitle(Scanner scanner, Book book) {
+    private static void setTitle(Scanner scanner, BookDto book) {
         System.out.print("Enter the title of the book: ");
         book.setTitle(scanner.nextLine());
     }
 
-    private static void setGenre(Scanner scanner, Book book) {
+    private static void setGenre(Scanner scanner, BookDto book) {
         System.out.print("Enter the genre of the book: ");
         book.setGenre(GenresOfTheBook.valueOf(scanner.nextLine()));
     }
 
-    private static void setLanguage(Scanner scanner, Book book) {
+    private static void setLanguage(Scanner scanner, BookDto book) {
         System.out.print("Enter the language of the book: ");
         book.setLanguage(LanguagesOfTheBook.valueOf(scanner.nextLine()));
     }
 
-    private static void setPages(Scanner scanner, Book book) {
+    private static void setPages(Scanner scanner, BookDto book) {
         System.out.print("Enter the number of pages of the book: ");
         while (true) {
             int pages = scanner.nextInt();
@@ -141,9 +151,11 @@ public class Main {
             }
             System.out.println("Incorrect input! Enter it again!");
         }
+        //Here, the scanner is called to clear the scanner's clipboard of \n that was left after the call scanner.nextInt()
+        scanner.nextLine();
     }
 
-    private static void setPrice(Scanner scanner, Book book) {
+    private static void setPrice(Scanner scanner, BookDto book) {
         System.out.print("Enter the price of the book: ");
         while (true) {
             BigDecimal price = scanner.nextBigDecimal();
@@ -153,9 +165,11 @@ public class Main {
             }
             System.out.println("Incorrect input! Enter it again!");
         }
+        //Here, the scanner is called to clear the scanner's clipboard of \n that was left after the call scanner.nextInt()
+        scanner.nextLine();
     }
 
-    private static void setPublicationYear(Scanner scanner, Book book) {
+    private static void setPublicationYear(Scanner scanner, BookDto book) {
         System.out.print("Enter the publication year of the book: ");
         while (true) {
             int year = scanner.nextInt();
@@ -165,7 +179,7 @@ public class Main {
             }
             System.out.println("Incorrect input! Enter it again!");
         }
-        //Here, the scanner is called to clear the scanner's clipboard of \n that was left after the call scanner.NextBigDecimal()
+        //Here, the scanner is called to clear the scanner's clipboard of \n that was left after the call scanner.nextInt()
         scanner.nextLine();
     }
 }
