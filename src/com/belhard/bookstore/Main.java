@@ -151,6 +151,8 @@ public class Main {
             }
             System.out.println("Incorrect input! Enter it again!");
         }
+        //Here, the scanner is called to clear the scanner's clipboard of \n that was left after the call scanner.nextInt()
+        scanner.nextLine();
     }
 
     private static void setPrice(Scanner scanner, BookDto book) {
@@ -163,6 +165,8 @@ public class Main {
             }
             System.out.println("Incorrect input! Enter it again!");
         }
+        //Here, the scanner is called to clear the scanner's clipboard of \n that was left after the call scanner.nextInt()
+        scanner.nextLine();
     }
 
     private static void setPublicationYear(Scanner scanner, BookDto book) {
@@ -175,7 +179,7 @@ public class Main {
             }
             System.out.println("Incorrect input! Enter it again!");
         }
-        //Here, the scanner is called to clear the scanner's clipboard of \n that was left after the call scanner.NextBigDecimal()
+        //Here, the scanner is called to clear the scanner's clipboard of \n that was left after the call scanner.nextInt()
         scanner.nextLine();
     }
 }
