@@ -1,6 +1,5 @@
 package com.belhard.bookstore;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 public class User {
