@@ -36,7 +36,7 @@ public class UserDaoImpl implements UserDao {
             "email = ?," +
             "password = ?, " +
             "age = ?, " +
-            "role_id = (SELECT id FROM roles r WHERE r.role = ?), " +
+            "role_id = (SELECT id FROM roles r WHERE r.role = ?) " +
             "WHERE id = ?";
     private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?";
     public static final String COUNT_QUERY = "SELECT COUNT(*) FROM users";
@@ -159,7 +159,7 @@ public class UserDaoImpl implements UserDao {
     public User findByEmail(String email) {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(FIND_BY_EMAIL);
-            statement.setString(1, "email");
+            statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return mapRow(resultSet);
@@ -174,8 +174,8 @@ public class UserDaoImpl implements UserDao {
     public List<User> findByLastName(String lastName) {
         List<User> users = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(FIND_BY_ID_QUERY);
-            statement.setString(1, "last_name");
+            PreparedStatement statement = connection.prepareStatement(FIND_BY_LAST_NAME);
+            statement.setString(1, lastName);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 User user = mapRow(resultSet);

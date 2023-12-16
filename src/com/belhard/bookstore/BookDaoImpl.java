@@ -60,7 +60,7 @@ public class BookDaoImpl implements BookDao {
             statement.setString(2, book.getIsbn());
             statement.setString(3, book.getTitle());
             setNullInt(4, book.getPages(), statement);
-            statement.setInt(5, book.getPublicationYear());
+            setNullInt(5, book.getPublicationYear(), statement);
             statement.setString(6, book.getGenre().toString());
             statement.setString(7, book.getLanguage().toString());
             setNullBigDecimal(8, book.getPrice(), statement);
