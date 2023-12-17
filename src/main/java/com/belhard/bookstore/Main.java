@@ -1,14 +1,14 @@
 package com.belhard.bookstore;
 
 import com.belhard.bookstore.data.BookDao;
+import com.belhard.bookstore.data.DataSource;
 import com.belhard.bookstore.data.enums.GenresOfTheBook;
 import com.belhard.bookstore.data.enums.LanguagesOfTheBook;
 import com.belhard.bookstore.data.impl.BookDaoImpl;
-import com.belhard.bookstore.data.DataSource;
 import com.belhard.bookstore.data.impl.DataSourceImpl;
 import com.belhard.bookstore.service.BookService;
-import com.belhard.bookstore.service.impl.BookServiceImpl;
 import com.belhard.bookstore.service.dto.BookDto;
+import com.belhard.bookstore.service.impl.BookServiceImpl;
 import com.belhard.bookstore.util.PropertiesManager;
 import com.belhard.bookstore.util.impl.PropertiesManagerImpl;
 

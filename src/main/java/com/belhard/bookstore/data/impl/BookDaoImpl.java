@@ -5,6 +5,8 @@ import com.belhard.bookstore.data.DataSource;
 import com.belhard.bookstore.data.entity.Book;
 import com.belhard.bookstore.data.enums.GenresOfTheBook;
 import com.belhard.bookstore.data.enums.LanguagesOfTheBook;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -52,7 +54,8 @@ public class BookDaoImpl implements BookDao {
             "JOIN genres g ON b.genre_id = g.id " +
             "JOIN languages l ON b.language_id = l.id " +
             "WHERE b.author = ?";
-    public static final String COUNT_QUERY = "SELECT COUNT(*) FROM books";
+    private static final String COUNT_QUERY = "SELECT COUNT(*) FROM books";
+    private static final Logger log = LogManager.getLogger(BookDaoImpl.class);
 
     public BookDaoImpl(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -61,6 +64,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book create(Book book) {
         try (Connection connection = dataSource.getConnection()) {
+            log.debug("connecting to the database");
             PreparedStatement statement = connection.prepareStatement(CREATION_QUERY, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, book.getAuthor());
             statement.setString(2, book.getIsbn());
@@ -102,6 +106,7 @@ public class BookDaoImpl implements BookDao {
     public List<Book> findAll() {
         List<Book> books = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
+            log.debug("connecting to the database");
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(FIND_ALL_QUERY);
             while (resultSet.next()) {
@@ -117,6 +122,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book findById(Long id) {
         try (Connection connection = dataSource.getConnection()) {
+            log.debug("connecting to the database");
             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID_QUERY);
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -132,6 +138,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book findByIsbn(String isbn) {
         try (Connection connection = dataSource.getConnection()) {
+            log.debug("connecting to the database");
             PreparedStatement statement = connection.prepareStatement(FIND_BY_ISBN);
             statement.setString(1, isbn);
             ResultSet resultSet = statement.executeQuery();
@@ -148,6 +155,7 @@ public class BookDaoImpl implements BookDao {
     public List<Book> findByAuthor(String author) {
         List<Book> books = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
+            log.debug("connecting to the database");
             PreparedStatement statement = connection.prepareStatement(FIND_BY_AUTHOR_QUERY);
             statement.setString(1, author);
             ResultSet resultSet = statement.executeQuery();
@@ -178,6 +186,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book update(Book book) {
         try (Connection connection = dataSource.getConnection()) {
+            log.debug("connecting to the database");
             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY);
             statement.setString(1, book.getAuthor());
             statement.setString(2, book.getIsbn());
@@ -204,6 +213,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public boolean delete(Long id) {
         try (Connection connection = dataSource.getConnection()) {
+            log.debug("connecting to the database");
             PreparedStatement statement = connection.prepareStatement(DELETE_QUERY);
             statement.setLong(1, id);
             int rowsAffected = statement.executeUpdate();
@@ -217,6 +227,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public long countAll() {
         try (Connection connection = dataSource.getConnection()) {
+            log.debug("connecting to the database");
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(COUNT_QUERY);
             if (resultSet.next()) {

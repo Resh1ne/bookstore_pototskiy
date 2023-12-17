@@ -4,11 +4,14 @@ import com.belhard.bookstore.data.entity.Book;
 import com.belhard.bookstore.service.BookService;
 import com.belhard.bookstore.service.dto.BookDto;
 import com.belhard.bookstore.data.BookDao;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class BookServiceImpl implements BookService {
     private final BookDao bookDao;
+    private static final Logger log = LogManager.getLogger(BookServiceImpl.class);
 
     public BookServiceImpl(BookDao bookDao) {
         this.bookDao = bookDao;
@@ -16,12 +19,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto create(BookDto dto) {
+        log.debug("The service method is called");
         Book book = toBookEntity(dto);
         Book bookCreated = bookDao.create(book);
         return toBookDto(bookCreated);
     }
 
     private Book toBookEntity(BookDto dto) {
+        log.debug("The service method is called");
         Book bookEntity = new Book();
         bookEntity.setAuthor(dto.getAuthor());
         bookEntity.setGenre(dto.getGenre());
@@ -36,6 +41,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDto> getAll() {
+        log.debug("The service method is called");
         return bookDao.findAll()
                 .stream()
                 .map(this::toBookDto)
@@ -44,6 +50,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto getById(long id) {
+        log.debug("The service method is called");
         Book bookEntity = bookDao.findById(id);
         if (bookEntity == null) {
             throw new RuntimeException("No book with id: " + id);
@@ -53,6 +60,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto update(BookDto dto) {
+        log.debug("The service method is called");
         Book book = toBookEntity(dto);
         book.setId(dto.getId());
         Book bookCreated = bookDao.update(book);
@@ -61,6 +69,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void delete(long id) {
+        log.debug("The service method is called");
         Book book = bookDao.findById(id);
         if (book == null) {
             throw new RuntimeException("Book with id: " + id + " not found");

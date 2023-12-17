@@ -4,6 +4,8 @@ import com.belhard.bookstore.data.enums.Role;
 import com.belhard.bookstore.data.DataSource;
 import com.belhard.bookstore.data.UserDao;
 import com.belhard.bookstore.data.entity.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -44,7 +46,8 @@ public class UserDaoImpl implements UserDao {
             "role_id = (SELECT id FROM roles r WHERE r.role = ?) " +
             "WHERE id = ?";
     private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?";
-    public static final String COUNT_QUERY = "SELECT COUNT(*) FROM users";
+    private static final String COUNT_QUERY = "SELECT COUNT(*) FROM users";
+    private static final Logger log = LogManager.getLogger(UserDaoImpl.class);
 
     public UserDaoImpl(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -53,6 +56,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User create(User user) {
         try (Connection connection = dataSource.getConnection()) {
+            log.debug("connecting to the database");
             PreparedStatement statement = connection.prepareStatement(CREATION_QUERY, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
@@ -83,6 +87,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findById(Long id) {
         try (Connection connection = dataSource.getConnection()) {
+            log.debug("connecting to the database");
             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID_QUERY);
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -111,6 +116,7 @@ public class UserDaoImpl implements UserDao {
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
+            log.debug("connecting to the database");
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(FIND_ALL_QUERY);
             while (resultSet.next()) {
@@ -126,6 +132,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User update(User user) {
         try (Connection connection = dataSource.getConnection()) {
+            log.debug("connecting to the database");
             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY);
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
@@ -150,6 +157,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean delete(Long id) {
         try (Connection connection = dataSource.getConnection()) {
+            log.debug("connecting to the database");
             PreparedStatement statement = connection.prepareStatement(DELETE_QUERY);
             statement.setLong(1, id);
             int rowsAffected = statement.executeUpdate();
@@ -163,6 +171,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findByEmail(String email) {
         try (Connection connection = dataSource.getConnection()) {
+            log.debug("connecting to the database");
             PreparedStatement statement = connection.prepareStatement(FIND_BY_EMAIL);
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
@@ -179,6 +188,7 @@ public class UserDaoImpl implements UserDao {
     public List<User> findByLastName(String lastName) {
         List<User> users = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
+            log.debug("connecting to the database");
             PreparedStatement statement = connection.prepareStatement(FIND_BY_LAST_NAME);
             statement.setString(1, lastName);
             ResultSet resultSet = statement.executeQuery();
@@ -195,6 +205,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public long countAll() {
         try (Connection connection = dataSource.getConnection()) {
+            log.debug("connecting to the database");
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(COUNT_QUERY);
             if (resultSet.next()) {

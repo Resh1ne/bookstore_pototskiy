@@ -1,13 +1,13 @@
 package com.belhard.bookstore;
 
 import com.belhard.bookstore.data.DataSource;
+import com.belhard.bookstore.data.UserDao;
 import com.belhard.bookstore.data.enums.Role;
 import com.belhard.bookstore.data.impl.DataSourceImpl;
-import com.belhard.bookstore.data.UserDao;
 import com.belhard.bookstore.data.impl.UserDaoImpl;
 import com.belhard.bookstore.service.UserService;
-import com.belhard.bookstore.service.impl.UserServiceImpl;
 import com.belhard.bookstore.service.dto.UserDto;
+import com.belhard.bookstore.service.impl.UserServiceImpl;
 import com.belhard.bookstore.util.PropertiesManager;
 import com.belhard.bookstore.util.impl.PropertiesManagerImpl;
 
