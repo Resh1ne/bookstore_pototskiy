@@ -50,7 +50,7 @@ public class UsersController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<UserDto> users = userService.getAll();
-        req.setAttribute("user", users);
+        req.setAttribute("users", users);
         req.getRequestDispatcher("jsp/user/users.jsp").forward(req, resp);
     }
 }
