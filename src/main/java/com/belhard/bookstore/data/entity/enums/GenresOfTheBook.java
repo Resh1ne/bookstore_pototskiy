@@ -1,4 +1,4 @@
-package com.belhard.bookstore.data.enums;
+package com.belhard.bookstore.data.entity.enums;
 
 @SuppressWarnings("unused")
 public enum GenresOfTheBook {

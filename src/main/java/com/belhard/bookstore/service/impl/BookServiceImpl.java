@@ -1,21 +1,20 @@
 package com.belhard.bookstore.service.impl;
 
+import com.belhard.bookstore.data.dao.BookDao;
 import com.belhard.bookstore.data.entity.Book;
 import com.belhard.bookstore.service.BookService;
 import com.belhard.bookstore.service.dto.BookDto;
-import com.belhard.bookstore.data.BookDao;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
     private final BookDao bookDao;
     private static final Logger log = LogManager.getLogger(BookServiceImpl.class);
 
-    public BookServiceImpl(BookDao bookDao) {
-        this.bookDao = bookDao;
-    }
 
     @Override
     public BookDto create(BookDto dto) {

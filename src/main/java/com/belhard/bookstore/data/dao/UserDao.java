@@ -1,4 +1,4 @@
-package com.belhard.bookstore.data;
+package com.belhard.bookstore.data.dao;
 
 import com.belhard.bookstore.data.entity.User;
 
@@ -15,8 +15,10 @@ public interface UserDao {
 
     boolean delete(Long id);
 
+    @SuppressWarnings("unused")
     User findByEmail(String email);
 
+    @SuppressWarnings("unused")
     List<User> findByLastName(String lastName);
 
     long countAll();

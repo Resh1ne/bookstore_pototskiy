@@ -1,10 +1,10 @@
 package com.belhard.bookstore;
 
-import com.belhard.bookstore.data.DataSource;
-import com.belhard.bookstore.data.UserDao;
-import com.belhard.bookstore.data.enums.Role;
-import com.belhard.bookstore.data.impl.DataSourceImpl;
-import com.belhard.bookstore.data.impl.UserDaoImpl;
+import com.belhard.bookstore.data.connection.DataSource;
+import com.belhard.bookstore.data.dao.UserDao;
+import com.belhard.bookstore.data.entity.enums.Role;
+import com.belhard.bookstore.data.connection.impl.DataSourceImpl;
+import com.belhard.bookstore.data.dao.impl.UserDaoImpl;
 import com.belhard.bookstore.service.UserService;
 import com.belhard.bookstore.service.dto.UserDto;
 import com.belhard.bookstore.service.impl.UserServiceImpl;
@@ -51,7 +51,8 @@ public class MainForUser {
         String url = propertiesManager.getKey("my.app.db." + profile + ".url");
         String user = propertiesManager.getKey("my.app.db." + profile + ".user");
         String password = propertiesManager.getKey("my.app.db." + profile + ".password");
-        DataSource dataSource = new DataSourceImpl(password, user, url);
+        String driver = propertiesManager.getKey("my.app.db." + profile + ".driver");
+        DataSource dataSource = new DataSourceImpl(password, user, url, driver);
         return new UserDaoImpl(dataSource);
     }
 

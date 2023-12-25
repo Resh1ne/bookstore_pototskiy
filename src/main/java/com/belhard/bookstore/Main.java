@@ -1,11 +1,11 @@
 package com.belhard.bookstore;
 
-import com.belhard.bookstore.data.BookDao;
-import com.belhard.bookstore.data.DataSource;
-import com.belhard.bookstore.data.enums.GenresOfTheBook;
-import com.belhard.bookstore.data.enums.LanguagesOfTheBook;
-import com.belhard.bookstore.data.impl.BookDaoImpl;
-import com.belhard.bookstore.data.impl.DataSourceImpl;
+import com.belhard.bookstore.data.dao.BookDao;
+import com.belhard.bookstore.data.connection.DataSource;
+import com.belhard.bookstore.data.entity.enums.GenresOfTheBook;
+import com.belhard.bookstore.data.entity.enums.LanguagesOfTheBook;
+import com.belhard.bookstore.data.dao.impl.BookDaoImpl;
+import com.belhard.bookstore.data.connection.impl.DataSourceImpl;
 import com.belhard.bookstore.service.BookService;
 import com.belhard.bookstore.service.dto.BookDto;
 import com.belhard.bookstore.service.impl.BookServiceImpl;
@@ -48,13 +48,14 @@ public class Main {
     }
 
     private static BookDao getBookDao() {
-        PropertiesManager propertiesManager = new PropertiesManagerImpl("C:\\Users\\Daniil\\IdeaProjects\\" +
-                "bookstore_pototskiy\\src\\main\\resources\\app.properties");
+        PropertiesManager propertiesManager = new PropertiesManagerImpl("/home/daniil/IdeaProjects/" +
+                "bookstore_pototskiy/src/main/resources/app.properties");
         String profile = propertiesManager.getKey("my.app.profile");
         String url = propertiesManager.getKey("my.app.db." + profile + ".url");
         String user = propertiesManager.getKey("my.app.db." + profile + ".user");
         String password = propertiesManager.getKey("my.app.db." + profile + ".password");
-        DataSource dataSource = new DataSourceImpl(password, user, url);
+        String driver = propertiesManager.getKey("my.app.db." + profile + ".driver");
+        DataSource dataSource = new DataSourceImpl(password, user, url, driver);
         return new BookDaoImpl(dataSource);
     }
 

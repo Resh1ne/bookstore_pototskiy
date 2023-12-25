@@ -1,10 +1,11 @@
-package com.belhard.bookstore.data.impl;
+package com.belhard.bookstore.data.dao.impl;
 
-import com.belhard.bookstore.data.BookDao;
-import com.belhard.bookstore.data.DataSource;
+import com.belhard.bookstore.data.connection.DataSource;
+import com.belhard.bookstore.data.dao.BookDao;
 import com.belhard.bookstore.data.entity.Book;
-import com.belhard.bookstore.data.enums.GenresOfTheBook;
-import com.belhard.bookstore.data.enums.LanguagesOfTheBook;
+import com.belhard.bookstore.data.entity.enums.GenresOfTheBook;
+import com.belhard.bookstore.data.entity.enums.LanguagesOfTheBook;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,6 +19,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
 public class BookDaoImpl implements BookDao {
     private final DataSource dataSource;
     private static final String CREATION_QUERY = "INSERT INTO books " +
@@ -57,10 +59,6 @@ public class BookDaoImpl implements BookDao {
     private static final String COUNT_QUERY = "SELECT COUNT(*) FROM books";
     private static final Logger log = LogManager.getLogger(BookDaoImpl.class);
 
-    public BookDaoImpl(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
     @Override
     public Book create(Book book) {
         try (Connection connection = dataSource.getConnection()) {
@@ -93,8 +91,7 @@ public class BookDaoImpl implements BookDao {
             statement.setInt(index, value);
         }
     }
-
-    private void setNullBigDecimal(int index, BigDecimal value, PreparedStatement statement) throws SQLException {
+private void setNullBigDecimal(int index, BigDecimal value, PreparedStatement statement) throws SQLException {
         if (value == null) {
             statement.setNull(index, Types.DOUBLE);
         } else {

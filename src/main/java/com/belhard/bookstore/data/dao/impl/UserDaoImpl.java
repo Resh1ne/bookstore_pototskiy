@@ -1,9 +1,10 @@
-package com.belhard.bookstore.data.impl;
+package com.belhard.bookstore.data.dao.impl;
 
-import com.belhard.bookstore.data.enums.Role;
-import com.belhard.bookstore.data.DataSource;
-import com.belhard.bookstore.data.UserDao;
+import com.belhard.bookstore.data.connection.DataSource;
+import com.belhard.bookstore.data.dao.UserDao;
 import com.belhard.bookstore.data.entity.User;
+import com.belhard.bookstore.data.entity.enums.Role;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,6 +17,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
 public class UserDaoImpl implements UserDao {
     private final DataSource dataSource;
     private static final String CREATION_QUERY = "INSERT INTO users " +
@@ -49,9 +51,6 @@ public class UserDaoImpl implements UserDao {
     private static final String COUNT_QUERY = "SELECT COUNT(*) FROM users";
     private static final Logger log = LogManager.getLogger(UserDaoImpl.class);
 
-    public UserDaoImpl(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
 
     @Override
     public User create(User user) {
