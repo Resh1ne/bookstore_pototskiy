@@ -14,7 +14,7 @@ public class DataSourceImpl implements DataSource {
     private final String url;
     private final String driver;
     @Setter
-    private int poolSize = 16;
+    private int poolSize = 4;
 
     public DataSourceImpl(String password, String user, String url, String driver) {
         this.password = password;
