@@ -18,7 +18,7 @@
             <tr>
                 <td>${counter.count}</td>
                 <td>${user.id}</td>
-                <td><a href="user?id=${user.id}">${user.email}</a></td>
+                <td><a href="controller?command=user&id=${user.id}">${user.email}</a></td>
             </tr>
         </c:forEach>
 
