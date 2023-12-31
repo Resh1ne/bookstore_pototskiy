@@ -1,5 +1,6 @@
 package com.belhard.bookstore.controller;
 
+import com.belhard.bookstore.controller.impl.BookCommand;
 import com.belhard.bookstore.controller.impl.BooksCommand;
 import com.belhard.bookstore.controller.impl.ErrorCommand;
 import com.belhard.bookstore.controller.impl.UserCommand;
@@ -45,6 +46,7 @@ public class CommandFactory implements Closeable {
         controllers.put("user", new UserCommand(userService));
         controllers.put("users", new UsersCommand(userService));
         controllers.put("books", new BooksCommand(bookService));
+        controllers.put("book", new BookCommand(bookService));
         controllers.put("error", new ErrorCommand());
     }
 
