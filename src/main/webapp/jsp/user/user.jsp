@@ -3,6 +3,7 @@
         <title>User</title>
     </head>
     <body>
+        <jsp:include page="../navbar.jsp"/>
         <h1>User</h1>
         <h3>${date}</h3>
         <p>Id: ${user.id}</p>
