@@ -19,7 +19,7 @@
           name="password"
           type="password"
           required
-          value="user.password"
+          value="${user.password}"
       /></label>
       <br />
       <label
