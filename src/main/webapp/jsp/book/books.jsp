@@ -13,7 +13,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       <tr>
         <th>#</th>
         <th>Id</th>
-        <th>Email</th>
+        <th>Title</th>
       </tr>
 
       <c:forEach items="${books}" var="book" varStatus="counter">

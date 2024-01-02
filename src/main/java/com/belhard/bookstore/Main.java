@@ -48,8 +48,7 @@ public class Main {
     }
 
     private static BookDao getBookDao() {
-        PropertiesManager propertiesManager = new PropertiesManagerImpl("/home/daniil/IdeaProjects/" +
-                "bookstore_pototskiy/src/main/resources/app.properties");
+        PropertiesManager propertiesManager = new PropertiesManagerImpl("/app.properties");
         String profile = propertiesManager.getKey("my.app.profile");
         String url = propertiesManager.getKey("my.app.db." + profile + ".url");
         String user = propertiesManager.getKey("my.app.db." + profile + ".user");

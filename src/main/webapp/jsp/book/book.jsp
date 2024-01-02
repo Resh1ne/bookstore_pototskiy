@@ -8,7 +8,7 @@
     <h1>Book</h1>
     <h3>${date}</h3>
     <p>Id: ${book.id}</p>
-    <p>Email: ${book.title}</p>
-    <p>Password: ${book.isbn}</p>
+    <p>Title: ${book.title}</p>
+    <p>Isbn: ${book.isbn}</p>
   </body>
 </html>

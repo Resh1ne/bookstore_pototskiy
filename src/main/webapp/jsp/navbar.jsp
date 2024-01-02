@@ -7,4 +7,9 @@
       >Create user</a
     >
   </li>
+  <li>
+    <a class="navbar_style" href="controller?command=create_book_form"
+      >Create book</a
+    >
+  </li>
 </ul>
