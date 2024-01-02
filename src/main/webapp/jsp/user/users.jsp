@@ -23,6 +23,9 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           <td>
             <a href="controller?command=user&id=${user.id}">${user.email}</a>
           </td>
+          <td>
+            <a href="controller?command=edit_user_form&id=${user.id}">Edit</a>
+          </td>
         </tr>
       </c:forEach>
     </table>

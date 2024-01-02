@@ -2,6 +2,10 @@ package com.belhard.bookstore.controller;
 
 import com.belhard.bookstore.controller.impl.BookCommand;
 import com.belhard.bookstore.controller.impl.BooksCommand;
+import com.belhard.bookstore.controller.impl.CreateUserCommand;
+import com.belhard.bookstore.controller.impl.CreateUserFormCommand;
+import com.belhard.bookstore.controller.impl.EditUserCommand;
+import com.belhard.bookstore.controller.impl.EditUserFormCommand;
 import com.belhard.bookstore.controller.impl.ErrorCommand;
 import com.belhard.bookstore.controller.impl.UserCommand;
 import com.belhard.bookstore.controller.impl.UsersCommand;
@@ -48,6 +52,10 @@ public class CommandFactory implements Closeable {
         controllers.put("books", new BooksCommand(bookService));
         controllers.put("book", new BookCommand(bookService));
         controllers.put("error", new ErrorCommand());
+        controllers.put("create_user_form", new CreateUserFormCommand());
+        controllers.put("create_user", new CreateUserCommand(userService));
+        controllers.put("edit_user_form", new EditUserFormCommand(userService));
+        controllers.put("edit_user", new EditUserCommand(userService));
     }
 
     private static DataSource getDataSource() {

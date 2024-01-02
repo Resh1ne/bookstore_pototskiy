@@ -2,6 +2,7 @@ package com.belhard.bookstore.service.impl;
 
 import com.belhard.bookstore.data.dao.UserDao;
 import com.belhard.bookstore.data.entity.User;
+import com.belhard.bookstore.data.entity.enums.Role;
 import com.belhard.bookstore.service.UserService;
 import com.belhard.bookstore.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,11 @@ public class UserServiceImpl implements UserService {
     public UserDto create(UserDto dto) {
         log.debug("The service method is called");
         User user = toUserEntity(dto);
+        user.setAge(null);
+        user.setRole(Role.CUSTOMER);
+        user.setLastName(null);
+        user.setFirstName(null);
+        user.setId(null);
         User bookCreated = userDao.create(user);
         return toUserDto(bookCreated);
     }

@@ -45,8 +45,7 @@ public class MainForUser {
     }
 
     private static UserDao getUserDao() {
-        PropertiesManager propertiesManager = new PropertiesManagerImpl("C:\\Users\\Daniil\\IdeaProjects\\" +
-                "bookstore_pototskiy\\src\\main\\resources\\app.properties");
+        PropertiesManager propertiesManager = new PropertiesManagerImpl("/app.properties");
         String profile = propertiesManager.getKey("my.app.profile");
         String url = propertiesManager.getKey("my.app.db." + profile + ".url");
         String user = propertiesManager.getKey("my.app.db." + profile + ".user");
